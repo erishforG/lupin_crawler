@@ -134,7 +134,7 @@ class LupinCrawler(Thread):
 
                 result = requests.post(self.jandi_url, data=json.dumps(payload), headers=self.jandi_header)
 
-            time.sleep(3)
+            time.sleep(3600)
 
 
     def start(self):
