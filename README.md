@@ -2,6 +2,8 @@
 
 # lupin_crawler
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/ngParty/ng-metadata/master/LICENSE)
+
 ## Building
 
 ### circumstance
