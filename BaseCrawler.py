@@ -9,7 +9,7 @@ BaseCrawler uses urllib2 library to get data and returns string data encoded wit
 __author__ = 'eric shin'
 
 import re
-import urllib2
+import urllib.request
 import time, threading
 import socket
 
@@ -23,7 +23,7 @@ class BaseCrawler:
         self.url = url
 
     def getData(self):
-        req = urllib2.Request(self.url)
+        req = urllib.request.Request(self.url)
         req.add_header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
         req.add_header("Accept-Language", "ko-KR,ko;")
         req.add_header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36")
@@ -31,12 +31,10 @@ class BaseCrawler:
         data = ''
 
         try:
-            response = urllib2.urlopen(req, None, 60)
+            response = urllib.request.urlopen(req, None, 60)
+            data = response.read()
 
-            for line in response:
-                data += line
-
-        except Exception, e:
+        except Exception as e:
             raise CrawlerException(e)
 
         return data

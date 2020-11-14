@@ -18,7 +18,7 @@ class HtmlCrawler(BaseCrawler.BaseCrawler):
 		try:
 			data = BaseCrawler.BaseCrawler.getData(self)
 			soup = BeautifulSoup(data, "html.parser", from_encoding="utf-8")
-		except BaseCrawler.CrawlerException, e:
+		except BaseCrawler.CrawlerException as e:
 			raise BaseCrawler.CrawlerException(e)
 
 		return soup

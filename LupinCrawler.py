@@ -14,8 +14,7 @@ import sys, inspect
 from threading import Thread
 import os
 import Crawlers
-import urllib2
-from httplib import BadStatusLine
+from http.client import BadStatusLine
 import json
 import requests
 import datetime
@@ -39,23 +38,7 @@ class LupinCrawler(Thread):
 
     def __init__(self):
         Thread.__init__(self)
-
         #send start message
-        #jandi
-        payload = {
-            "body" : self.channel + " start",
-            "connectColor" : "#FAC11B",
-            "connectInfo" : [{
-                "title" : self.channel,
-                "description" : self.channel + " start"
-            }]
-        }
- 
-        result = requests.post(self.jandi_url, data=json.dumps(payload), headers=self.jandi_header)
-
-        #slack / insert your slack address
-        #self.slack = Slacker('')
-        #self.slack.chat.post_message(self.channel, 'start')
 
     def run(self):
         self.data = {}
@@ -76,36 +59,18 @@ class LupinCrawler(Thread):
                         #if it is not the time of initialization
                         if not self.data[i] == '':
                             #send new webtoon message
-                            #jandi
-                            payload = {
-                                "body" : crawler.__class__.__name__ + " new webtoon arrived!",
-                                "connectColor" : "#FAC11B",
-                                "connectInfo" : [{
-                                    "title" : self.channel,
-                                    "description" : 
-                                        "crawler name : " + crawler.__class__.__name__ + '\n'
-                                        "crawler webtoon list : " + '\n' +
-                                                 '\n'.join(data)
-                                }]
-                            }
-                            
-                            result = requests.post(self.jandi_url, data=json.dumps(payload), headers=self.jandi_header)
-
-                            #slack
-                            #self.slack.chat.post_message(self.channel, crawler.url + '\n' + '\n'.join(data))
-                            
-                            print data[0:200]
+                            print (data[0:200])
 
                     self.data[i] = ''.join(data)
-                except Exception, e:
+                except Exception as e:
                     #if there is any crash, reset the crawler's data
                     self.data[i] = ''
     
                     #print log
-                    print crawler.url
+                    print (crawler.url)
                     exc_type, exc_value, exc_traceback = sys.exc_info()
                     lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
-                    print ''.join('* ' + line for line in lines)
+                    print (''.join('* ' + line for line in lines))
 
             now = datetime.datetime.now();
 
@@ -144,7 +109,7 @@ class LupinCrawler(Thread):
         pass
 
     def loadCrawlers(self):
-        print('importCrawlers')
+        print ('importCrawlers')
 
         self.crawlers = []
 
@@ -154,16 +119,9 @@ class LupinCrawler(Thread):
             if name == 'HtmlCrawler':
                 continue
             if inspect.isclass(obj):
-                print name
+                print (name)
                 clazz = getattr(Crawlers, name)
                 self.crawlers.append(clazz())
-
-    def my_import(self, name):
-        mod = __import__(name)
-        components = name.split('.')
-        for comp in components[1:]:
-            mod = getattr(mod, comp)
-        return mod
 
 #initialization
 if __name__ == "__main__":
