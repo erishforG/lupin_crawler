@@ -12,6 +12,11 @@ import re
 import urllib.request
 import time, threading
 import socket
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 class CrawlerException(Exception):
     pass
@@ -38,3 +43,10 @@ class BaseCrawler:
             raise CrawlerException(e)
 
         return data
+
+    def getDataByBrowser(self):
+        browser = webdriver.Chrome('/Users/erish/Documents/lupin_crawler/chromedriver')
+        browser.implicitly_wait(3)
+        browser.get(self.url)
+        time.sleep(5) # 접속하는 동안 대기
+        return browser.page_source

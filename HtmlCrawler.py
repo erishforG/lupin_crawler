@@ -23,4 +23,13 @@ class HtmlCrawler(BaseCrawler.BaseCrawler):
 
 		return soup
 
-	
+	def getBsWithSn(self):
+		soup = None
+        
+		try:
+			data = BaseCrawler.BaseCrawler.getDataByBrowser(self)
+			soup = BeautifulSoup(data, "html.parser", from_encoding="utf-8")
+		except BaseCrawler.CrawlerException as e:
+			raise BaseCrawler.CrawlerException(e)
+
+		return soup

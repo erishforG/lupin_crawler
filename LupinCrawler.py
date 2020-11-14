@@ -24,15 +24,7 @@ from difflib import SequenceMatcher
 #slack library
 #from slacker import Slacker
 
-class LupinCrawler(Thread):
-    # jandi / insert your jandi address
-    jandi_url = ''
-    
-    jandi_header = {
-    'Accept': 'application/vnd.tosslab.jandi-v2+json',
-    'Content-Type': 'application/json'
-    }
-    
+class LupinCrawler(Thread):  
     channel = '#lupin_crawler'
     check_time = 0
 
@@ -72,7 +64,7 @@ class LupinCrawler(Thread):
                     lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
                     print (''.join('* ' + line for line in lines))
 
-            now = datetime.datetime.now();
+            now = datetime.datetime.now()
 
             #check crawlers work fine each 12 hour
             if int(now.hour) % 12 == 0 and self.check_time != now.hour :

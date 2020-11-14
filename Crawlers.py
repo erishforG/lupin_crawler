@@ -29,3 +29,20 @@ class NaverCrawler(HtmlCrawler):
                 result.append(object.img["title"] + " / " + self.url + object.a["href"])
         
         return result
+
+class SeibroCrawler(HtmlCrawler):
+    def __init__(self):
+        HtmlCrawler.__init__(self, 'http://comic.naver.com/webtoon/weekday.nhn')
+
+    def get(self):
+        soup = HtmlCrawler.getBsWithSn(self)
+        
+        data = soup.findAll(class_ = "thumb")
+        
+        result = []
+        
+        for object in data:
+            if object.find(class_ = "ico_updt") is not None:
+                result.append(object.img["title"] + " / " + self.url + object.a["href"])
+        
+        return result
